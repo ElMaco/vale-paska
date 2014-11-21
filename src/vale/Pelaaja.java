@@ -72,11 +72,26 @@ private boolean kaatuu = false;
 	
 	
 	//palauttaa pelaajan kortit merkkijonotaulukkona
-	public String[] kortitString()
+	public String[] kortitStringT()
 	{
 		String[] s = new String[kasi.size()];
 		for (int i=0; i<kasi.size(); i++)
 			s[i] = kasi.get(i).toString();
+		return s;
+	}
+	
+	
+	//palauttaa pelaajan kortit merkkijonona (väleissä '&')
+	public String kortitString()
+	{
+		String s = "";
+		for (int i=0; i<kasi.size(); i++)
+		{
+			if (i == 0)
+				s = kasi.get(i).toString();
+			else
+				s = s + "&" + kasi.get(i).toString();
+		}
 		return s;
 	}
 }

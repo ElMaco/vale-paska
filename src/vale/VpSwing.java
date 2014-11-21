@@ -234,8 +234,8 @@ public class VpSwing {
 	
 	private void paivita()
 	{
-		gui.setList1(vp.getKortit(0));
-		gui.setList2(vp.getKortit(1));
+		gui.setList1(vp.getKortitT(0));
+		gui.setList2(vp.getKortitT(1));
 		gui.setList3(vp.getAvo());
 	}
 

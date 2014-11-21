@@ -9,10 +9,18 @@ private List<Kortti> nostopakka;
 private List<Kortti> avopakka;
 private List<Pelaaja> pelaajat;
 private int vuoro = 0;
+private int edellinen = 0;
 private int putki = 0;
 private int[] vaite = new int[]{0, 0}; // vaite[0] = kortin numero, vaite[1] = montako
 private boolean on_kaatumassa = false;
 private boolean peli_ohi = false;
+
+
+	public Valepaska()
+	{
+		pelaajat = new ArrayList<Pelaaja>();
+	}
+
 
 	public static void main(String[] args)
 	{
@@ -45,16 +53,19 @@ private boolean peli_ohi = false;
 	}
 	
 	
+	public void lisaaPelaaja()
+	{
+		pelaajat.add(new Pelaaja());
+	}
+	
+	
 	public void aloitaPeli()
 	{
 		vuoro = 0;
 		
 		nostopakka = new ArrayList<Kortti>(52);
 		avopakka = new ArrayList<Kortti>();
-		pelaajat = new ArrayList<Pelaaja>();
 		
-		pelaajat.add(new Pelaaja());
-		pelaajat.add(new Pelaaja());
 		
 		for (int i=2; i<15; i++)
 			for (int j=0; j<4; j++)
@@ -119,6 +130,7 @@ private boolean peli_ohi = false;
 				p.lisaa(nostopakka.remove(nostopakka.size()-1));		
 		
 
+		edellinen = vuoro;
 		vuoro = (vuoro+1)%pelaajat.size();
 		
 		if (p.kortteja() == 0)
@@ -143,7 +155,7 @@ private boolean peli_ohi = false;
 	public int epailen(int pelaaja)
 	{
 		if (peli_ohi) return 305;
-		int edellinen = (vuoro+pelaajat.size()-1)%pelaajat.size();
+		//int edellinen = (vuoro+pelaajat.size()-1)%pelaajat.size();
 		Pelaaja edel = pelaajat.get(edellinen);
 		if (pelaaja == edellinen) return 301;
 		if (avopakka.size() == 0) return 302;
@@ -174,7 +186,7 @@ private boolean peli_ohi = false;
 			peli_ohi = true;
 			return 305;
 		}
-			
+		
 		vuoro = (pelaaja+1)%pelaajat.size();
 		vaite[1] = 0;
 		vaite[0] = 0;
@@ -196,7 +208,7 @@ private boolean peli_ohi = false;
 	public int kaatuu(int pelaaja)
 	{
 		if (peli_ohi) return 505;
-		int edellinen = (vuoro+pelaajat.size()-1)%pelaajat.size();
+		//int edellinen = (vuoro+pelaajat.size()-1)%pelaajat.size();
 		if (pelaaja == edellinen) return 503;
 		if (!on_kaatumassa) return 502;
 		
@@ -266,6 +278,12 @@ private boolean peli_ohi = false;
 	}
 	
 	
+	public int getEdellinen()
+	{
+		return edellinen;
+	}
+	
+	
 	public int getPelaajia()
 	{
 		return pelaajat.size();
@@ -273,9 +291,17 @@ private boolean peli_ohi = false;
 	
 	
 	//palauttaa pelaajan i kortit merkkijonotaulukkona
-	public String[] getKortit(int i)
+	public String[] getKortitT(int i)
 	{
 		if (i < 0 || i >= pelaajat.size()) return new String[]{""};
+		return pelaajat.get(i).kortitStringT();
+	}
+	
+	
+	//palauttaa pelaajan i kortit merkkijonona
+	public String getKortit(int i)
+	{
+		if (i < 0 || i >= pelaajat.size()) return "";
 		return pelaajat.get(i).kortitString();
 	}
 	
